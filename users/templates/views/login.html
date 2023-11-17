@@ -1,0 +1,23 @@
+{% extends 'views/base.html' %}
+{% load static %}
+{% load crispy_forms_tags%}
+
+{% block 'body' %}
+<div class='text-center w-25 mx-auto'>
+    <h1>Login Here</h1>
+    <main class='form_signin'>
+        <form method="POST">
+            {% csrf_token %}
+            {{ login_form|crispy }}
+            <button class='btn btn-large w-100 btn-primary'type='submit'>Sign in</button>
+        </form>
+        <p >Create an account -<a class="text-primary text-decoration-none" href={% url 'register' %}> Register</a></p>
+        <p class='pt-5 d-flex flex-column'>Copyright © {% now 'Y' %} <h6 class="text-black ">TimMax</h6> by <h6
+            class="text-black">Idowu Micheal</h6></p>
+    </main>
+   
+</div>
+{% endblock %}
+
+{% block 'footer' %}
+{% endblock %}

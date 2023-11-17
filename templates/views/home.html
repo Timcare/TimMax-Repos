@@ -1,0 +1,35 @@
+{% extends 'views/base.html' %}
+{% load static %}
+{% load crispy_forms_tags %}
+{% block title %}Car Listing {% endblock %}
+{% block 'body' %}
+<main>
+    <section class="py-5 container">
+        <div class="row py-lg-5">
+            <div class="col-lg-6 col-md-8 mx-auto">
+                <h1 class="fw-light">Timmax</h1>
+                <p class="lead text-muted">The best place to buy or sell modern enthusiast car, and we've made it that much easier</p>
+                <a href="{% url 'list' %}" class="btn btn-primary my-2">LIST YOUR CAR</a>
+            </div>
+            <div class="col-lg-6 col-md-8 mx-auto">
+                <form method="GET">
+                    {{listing_filters.form|crispy}}
+                    <button class="btn btn-primary text-center " type="submit">Submit</button>
+                </form>
+            </div>
+        </div>
+    </section>
+    <div class="album py-5 bg-light">
+        <div class="container">
+            <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3 gx-3">
+               
+                    {% for listings in listing_filters.qs %}
+                        {% include 'components/listing_card.html' %}
+                    {% endfor %}
+            </div>
+        </div>
+    </div>
+    
+</main>
+
+{% endblock %}

@@ -1,0 +1,68 @@
+<div class='card shadow-sm'>
+    <img src="{{listings.image.url}}" class='card-img-top'>
+    <div class='card-body'>
+        <div class='card-title'>
+            <div class='card-text'>
+                <p>{{listings.updated_at|timesince}} ago</p>
+            </div>
+            <p class="h4">{{listings.model}}</p>
+        </div>
+        <div class="row">
+            <div class='card-text d-flex align-items-center'>
+                <img src="{{listings.seller.photo.url}}" class="rounded-circle img-thumbnail" width="50" height="50"></img>
+                <p class="h6 ms-2">{{listings.seller.user.username}}</p>
+            </div>
+        </div>
+
+        <div class='card-text'>
+            <p>{{listings.description|truncatewords:100}}</p>
+        </div>
+        <div class="d-flex">
+            {% if listings.seller.user == request.user %}
+            <div class='border border-primary rounded-2 w-25 text-center'>
+                <a href="{% url 'edit' id=listings.id %}" class="text-decoration-none">Edit</a>
+            </div>
+            {% endif %}
+            <button class='border border-primary rounded-2 w-25 text-center'>
+                <a href="{% url 'listings' id=listings.id %}" class="text-decoration-none">View</a>
+            </button>
+        </div>
+        <div class="text-end">
+            <button class='btn rounded-2 w-25 text-center' id="like_{{listings.id}}" type='button' value='like'>
+                {% if listings.id in linked_listing_ids %}
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="red" class="bi bi-heart"
+                    viewBox="0 0 16 16">
+                    <path
+                        d="m8 2.748-.717-.737C5.6.281 2.514.878 1.4 3.053c-.523 1.023-.641 2.5.314 4.385.92 1.815 2.834 3.989 6.286 6.357 3.452-2.368 5.365-4.542 6.286-6.357.955-1.886.838-3.362.314-4.385C13.486.878 10.4.28 8.717 2.01L8 2.748zM8 15C-7.333 4.868 3.279-3.04 7.824 1.143c.06.055.119.112.176.171a3.12 3.12 0 0 1 .176-.17C12.72-3.042 23.333 4.867 8 15z">
+                    </path>
+                </svg>
+                {% else %}
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="black" class="bi bi-heart"
+                    viewBox="0 0 16 16">
+                    <path
+                        d="m8 2.748-.717-.737C5.6.281 2.514.878 1.4 3.053c-.523 1.023-.641 2.5.314 4.385.92 1.815 2.834 3.989 6.286 6.357 3.452-2.368 5.365-4.542 6.286-6.357.955-1.886.838-3.362.314-4.385C13.486.878 10.4.28 8.717 2.01L8 2.748zM8 15C-7.333 4.868 3.279-3.04 7.824 1.143c.06.055.119.112.176.171a3.12 3.12 0 0 1 .176-.17C12.72-3.042 23.333 4.867 8 15z">
+                    </path>
+                </svg>
+                {% endif %}
+            </button>
+        </div>
+        
+    </div>
+</div>
+
+<script>
+    $("#like_{{listings.id}}").click(function() {
+        $.ajax({
+            type:"POST",
+            url:"{% url 'like_listing' id=listings.id %}",
+            data:{'csrfmiddlewaretoken':'{{csrf_token}}'},
+            dataType:'json',
+            success:function(r) {
+                $("#like_{{listings.id}}").find('svg').attr('fill',r.is_liked_by_user ? 'red':'black')
+            },
+            error:function(rs,e) {
+                alert(e)
+            }
+        });
+    })
+</script>

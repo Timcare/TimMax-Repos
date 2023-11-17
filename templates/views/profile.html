@@ -1,0 +1,71 @@
+{% extends 'views/base.html' %}
+{% load static %}
+{% load crispy_forms_tags %}
+{% block title %}Profile Page {% endblock %}
+{% block 'body' %}
+<div class="container-fluid text-center py-5">
+    <div class="container px-4 py-5">
+        <div class="row g-4">
+            <div class="col d-flex align-items-start">
+                <div>
+                    <h2 class="mb-3 border-bottom">PROFILE</h2>
+                </div>
+            </div>
+        </div>
+        <form method="POST" enctype="multipart/form-data">
+            {% csrf_token %}
+            <div class="row">
+                <div class="col-6">
+                    {{user_form|crispy}}
+                    {{profile_form|crispy}}
+                </div>
+                <div class="col-6">
+                    {{location_form|crispy}}
+                </div>
+                <button class="btn btn-lg btn-primary" type="submit" value="Submit">Save</button>
+            </div>
+            
+        </form>
+    </div>
+    <div container px-4>
+        <div row g-4 py-5>
+            <div col d-flex align-items-start px-4>
+                <div>
+                   <h2 class="mb-3 border-bottom">YOUR LISTING</h2>
+                </div>
+            </div>
+        </div>
+        <table class="table table-hover">
+            <tbody>
+                {% for listing in user_listing %}
+                <tr>
+                    <td>{{listing.id}}</td>
+                    <td>{{listing.model}}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+    <div container px-4>
+        <div row g-4 py-5>
+            <div col d-flex align-items-start px-4>
+                <div>
+                   <h2 class="mb-3 border-bottom">LIKED LISTING</h2>
+                </div>
+            </div>
+        </div>
+        <table class="table table-hover">
+            <tbody>
+                {% for liked_listing in user_liked_listing %}
+                <tr>
+                
+                    <td>{{liked_listing.listing.model}}</td>
+                    <td>{{liked_listing.like_date}}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+
+{% endblock %}
