@@ -1,1 +1,2 @@
 # TimMax-Repos
+"Explore the world of automobiles with this dynamic car list website, built using the powerful combination of Bootstrap 5 and Django. Discover an interactive platform showcasing diverse car models, featuring responsive design for seamless browsing on various devices. Dive into the world of automotive excellence with our user-friendly interface, bringing together the elegance of Django backend and the modern aesthetics of Bootstrap 5 frontend."
