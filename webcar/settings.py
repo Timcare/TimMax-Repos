@@ -35,7 +35,7 @@ DEBUG = os.environ.get('DEBUG','True') == 'True'
 
 #ALLOWED_HOSTS = os.environ.get('ALLOWED_HOSTS','127.0.0.1').split(",")
 
-ALLOWED_HOSTS = ['localhost','127.0.0.1','carmax-lwp0.onrender.com']
+ALLOWED_HOSTS = ['carmax-lwp0.onrender.com']
 
 
 # Application definition
