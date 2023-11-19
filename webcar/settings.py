@@ -27,14 +27,15 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/4.2/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = env('SECRET_KEY')
+SECRET_KEY = os.environ.get('SECRET_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
 #DEBUG = env('DEBUG')
-DEBUG = False
+DEBUG = os.environ.get('DEBUG','True') == 'True'
 
+#ALLOWED_HOSTS = os.environ.get('ALLOWED_HOSTS','127.0.0.1').split(",")
 
-ALLOWED_HOSTS = ['127.0.0.1','localhost','carmax-lwp0.onrender.com']
+ALLOWED_HOSTS = ['localhost','127.0.0.1','carmax-lwp0.onrender.com']
 
 
 # Application definition
@@ -98,20 +99,20 @@ WSGI_APPLICATION = 'webcar.wsgi.application'
 
 # Database
 # https://docs.djangoproject.com/en/4.2/ref/settings/#databases
-# if not DEBUG:
+if not DEBUG:
+    # #Postgresql Database
+ DATABASES = {
+     'default': dj_database_url.parse(os.environ.get('DATABASE_URL'))
+ }
+else:
+    DATABASES = {
+        'default': {
+            'ENGINE': 'django.db.backends.sqlite3',
+            'NAME': BASE_DIR / 'db.sqlite3',
+            }
+    }
 
-#     DATABASES = {
-#         'default': {
-#             'ENGINE': 'django.db.backends.sqlite3',
-#             'NAME': BASE_DIR / 'db.sqlite3',
-#         }
-#     }
 
-# #Postgresql Database
-# else:
-DATABASES = {
-    'default': dj_database_url.parse(env('DATABASE_URL'))
-}
 
 
 
@@ -159,9 +160,9 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/4.2/howto/static-files/
 
 STATIC_URL = 'static/'
-# STATICFILES_DIRS=[
-#     BASE_DIR/'static'
-# ]
+STATICFILES_DIRS=[
+     BASE_DIR/'static'
+ ]
 STATIC_ROOT=BASE_DIR/'staticfiles'
 STATICFILES_STORAGE='whitenoise.storage.CompressedManifestStaticFilesStorage'
 

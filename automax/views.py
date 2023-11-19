@@ -41,8 +41,13 @@ def list(request):
         except Exception as e:
             messages.error(request,"An error occur while posting the listing")
     else:
-        listing_form=ListingForm()
-        location_form=LocationForm()
+        if request.user.first_name=="":
+            messages.error(request,'Update your profile')
+            return redirect('profile')
+        else:
+            listing_form=ListingForm()
+            location_form=LocationForm()
+        
     return render(request,"views/listing.html",{'listing_form':listing_form,'location_form':location_form})
 
 @login_required
