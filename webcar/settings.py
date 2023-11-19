@@ -31,11 +31,12 @@ SECRET_KEY = os.environ.get('SECRET_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
 #DEBUG = env('DEBUG')
-DEBUG = os.environ.get('DEBUG')
+# DEBUG = os.environ.get('DEBUG','True') == 'True'
+DEBUG = os.environ.get('DEBUG') 
 
 #ALLOWED_HOSTS = os.environ.get('ALLOWED_HOSTS','127.0.0.1').split(",")
 
-ALLOWED_HOSTS = ['carmax-lwp0.onrender.com']
+ALLOWED_HOSTS = ['localhost','127.0.0.1','carmax-lwp0.onrender.com']
 
 
 # Application definition
@@ -81,7 +82,7 @@ ROOT_URLCONF = 'webcar.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [os.path.join(BASE_DIR,'templates')],
+        'DIRS': [os.path.join(BASE_DIR/'templates')],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -99,10 +100,22 @@ WSGI_APPLICATION = 'webcar.wsgi.application'
 
 # Database
 # https://docs.djangoproject.com/en/4.2/ref/settings/#databases
-    # #Postgresql Database
+# if not DEBUG:
+#     # #Postgresql Database
+#  DATABASES = {
+#      'default': dj_database_url.parse(os.environ.get('DATABASE_URL'))
+#  }
+# else:
 DATABASES = {
-     'default': dj_database_url.parse(os.environ.get('DATABASE_URL'))
- }
+        'default': {
+            'ENGINE': 'django.db.backends.postgresql_psycopg2',
+            'NAME': 'Timmax',
+            'USER': 'postgres',
+            'PASSWORD' : os.environ.get('DATABASE_POSTGRES'),
+            'HOST' : 'localhost',
+            'PORT' : '5432',
+            }
+    }
 
 
 
@@ -151,13 +164,12 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/4.2/howto/static-files/
 
-STATIC_URL = 'static/'
+STATIC_URL = '/static/'
 STATIC_ROOT=os.path.join(BASE_DIR,'static')
 # STATICFILES_DIRS=[
 #     BASE_DIR/'static'
 #  ]
 STATICFILES_STORAGE='whitenoise.storage.CompressedManifestStaticFilesStorage'
-
 #Media Files
 MEDIA_ROOT=os.path.join(BASE_DIR,'media')
 MEDIA_URL='/media/'
