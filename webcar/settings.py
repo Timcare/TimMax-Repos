@@ -99,7 +99,7 @@ WSGI_APPLICATION = 'webcar.wsgi.application'
 
 # Database
 # https://docs.djangoproject.com/en/4.2/ref/settings/#databases
-if not DEBUG:
+if DEBUG:
     # #Postgresql Database
  DATABASES = {
      'default': dj_database_url.parse(os.environ.get('DATABASE_URL'))
