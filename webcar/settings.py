@@ -31,8 +31,7 @@ SECRET_KEY = os.environ.get('SECRET_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
 #DEBUG = env('DEBUG')
-# DEBUG = os.environ.get('DEBUG','True') == 'True'
-DEBUG = os.environ.get('DEBUG') 
+DEBUG = os.environ.get('DEBUG','True') == 'True'
 
 #ALLOWED_HOSTS = os.environ.get('ALLOWED_HOSTS','127.0.0.1').split(",")
 
@@ -100,20 +99,16 @@ WSGI_APPLICATION = 'webcar.wsgi.application'
 
 # Database
 # https://docs.djangoproject.com/en/4.2/ref/settings/#databases
-# if not DEBUG:
-#     # #Postgresql Database
-#  DATABASES = {
-#      'default': dj_database_url.parse(os.environ.get('DATABASE_URL'))
-#  }
-# else:
-DATABASES = {
+if not DEBUG:
+    # #Postgresql Database
+ DATABASES = {
+     'default': dj_database_url.parse(os.environ.get('DATABASE_URL'))
+ }
+else:
+    DATABASES = {
         'default': {
-            'ENGINE': 'django.db.backends.postgresql_psycopg2',
-            'NAME': 'Timmax',
-            'USER': 'postgres',
-            'PASSWORD' : os.environ.get('DATABASE_POSTGRES'),
-            'HOST' : 'localhost',
-            'PORT' : '5432',
+            'ENGINE': 'django.db.backends.sqlite3',
+            'NAME': BASE_DIR / 'db.sqlite3',
             }
     }
 
